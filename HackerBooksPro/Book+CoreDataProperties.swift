@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  HackerBooksPro
 //
-//  Created by Ivan Aguilar Martin on 18/9/16.
+//  Created by Ivan Aguilar Martin on 21/9/16.
 //  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
 //
 
@@ -17,8 +17,9 @@ extension Book {
 
     @NSManaged public var title: String?
     @NSManaged public var authors: NSSet?
-    @NSManaged public var cover: Cover?
     @NSManaged public var bookTags: NSSet?
+    @NSManaged public var cover: Cover?
+    @NSManaged public var document: Document?
 
 }
 

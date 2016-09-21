@@ -2,7 +2,7 @@
 //  BookTag+CoreDataProperties.swift
 //  HackerBooksPro
 //
-//  Created by Ivan Aguilar Martin on 18/9/16.
+//  Created by Ivan Aguilar Martin on 21/9/16.
 //  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
 //
 

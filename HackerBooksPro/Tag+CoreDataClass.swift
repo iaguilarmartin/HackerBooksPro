@@ -34,5 +34,5 @@ public class Tag: NSManagedObject {
             return Tag(name: name, inContext: context)
         }
     }
-
+    
 }

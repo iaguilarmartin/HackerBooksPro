@@ -24,7 +24,7 @@ public class Cover: NSManagedObject {
                 downloadState = .downloading
                 
                 print("Downloading cover: ", self.imageURL!);
-
+                
                 DispatchQueue.global(qos: .default).async {
                     if let imageData = try? Data(contentsOf: self.imageURL!) {
                         self.imageData = imageData as NSData?

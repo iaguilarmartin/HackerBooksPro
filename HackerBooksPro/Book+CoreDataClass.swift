@@ -11,11 +11,12 @@ import CoreData
 
 public class Book: NSManagedObject {
     static let entityName = "Book"
-    static let bookCoverChangedEvent = "BookFavoriteChangedNotification"
+    static let bookCoverChangedEvent = "BookCoverChangedNotification"
+    static let bookDocumentChangedEvent = "BookDocumentChangedNotification"
     static let bookChangedKey = "KeyBook"
     
     //MARK: - Initializer
-    convenience init (title: String, authors: [String], tags: [String], cover: Cover, inContext context: NSManagedObjectContext) {
+    convenience init (title: String, authors: [String], tags: [String], cover: Cover, document: Document, inContext context: NSManagedObjectContext) {
         
         let entityDescription = NSEntityDescription.entity(forEntityName: Book.entityName, in: context)
         self.init(entity: entityDescription!, insertInto: context)
@@ -24,6 +25,9 @@ public class Book: NSManagedObject {
         
         cover.delegate = self
         self.cover = cover
+        
+        document.delegate = self
+        self.document = document
         
         for authorName in authors {
             let author = Author.searchOrCreate(name: authorName, inContext: context)
@@ -61,5 +65,12 @@ extension Book: CoverDelegate {
     func imageDownloaded(_ sender: Cover) {
         self.cover = sender
         sendNotification(name: Book.bookCoverChangedEvent)
+    }
+}
+
+extension Book: DocumentDelegate {
+    func documentDownloaded(_ sender: Document) {
+        self.document = sender
+        sendNotification(name: Book.bookDocumentChangedEvent)
     }
 }

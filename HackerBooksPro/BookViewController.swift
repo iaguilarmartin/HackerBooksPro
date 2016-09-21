@@ -40,8 +40,8 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
     @IBAction func readBook(_ sender: AnyObject) {
         
         if let book = self.model {
-//            let pdfVC = PDFViewController(model: book)
-//            self.navigationController?.pushViewController(pdfVC, animated: true)
+            let pdfVC = PDFViewController(model: book)
+            self.navigationController?.pushViewController(pdfVC, animated: true)
         }
     }
     
@@ -95,6 +95,5 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
         } else if displayMode == .allVisible {
             self.navigationItem.rightBarButtonItem = nil
         }
-        
     }
 }

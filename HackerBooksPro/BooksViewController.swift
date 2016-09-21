@@ -110,6 +110,11 @@ extension BooksViewController {
         
         //Scroll the TableView to the first element
         self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
+        
+        self.fetchedResultsController?.delegate = nil
+        self.tagsFetchedResultsController.delegate = nil
+        self.alphabeticalFetchedResultsController.delegate = nil
+        
         if areTagsVisibles {
             self.fetchedResultsController = self.tagsFetchedResultsController as? NSFetchedResultsController<NSFetchRequestResult>
         } else {

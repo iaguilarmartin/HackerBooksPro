@@ -88,11 +88,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Check if the image and document string value are valid URLs
                 if let image = URL(string: imageURL), let document = URL(string: docURL) {
-                    
-                    let coverImage = UIImage(imageLiteralResourceName: "emptyBookCover.png")
                     let cover = Cover(imageURL: image, inContext: model.context)
-                    
-                    let _ = Book(title: title, authors: authors, tags: tags, cover: cover, inContext: model.context)
+                    let pdf = Document(documentURL: document, inContext: model.context)
+                    let _ = Book(title: title, authors: authors, tags: tags, cover: cover, document: pdf, inContext: model.context)
                 }
             }
         }

@@ -20,7 +20,7 @@ public class Author: NSManagedObject {
         
         self.name = name
     }
-
+    
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Author {
         
         let request = NSFetchRequest<Author>(entityName: Author.entityName)
