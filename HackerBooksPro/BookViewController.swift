@@ -27,7 +27,7 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.edgesForExtendedLayout = UIRectEdge()
+        self.navigationController?.navigationBar.isTranslucent = false
         
         updateView()
         
@@ -46,9 +46,9 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
     }
     
     @IBAction func favoriteBook(_ sender: AnyObject) {
-        if self.model != nil {
-//            self.model?.isFavorite = !(self.model?.isFavorite)!
-//            updateView()
+        if let book = self.model {
+            book.toggleFavoriteState()
+            updateView()
         }
     }
     
@@ -66,11 +66,11 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
             
             self.bookImage.image  = model?.cover?.image
             
-//            if book.isFavorite {
-//                favoritesButton.title = "Quitar de favoritos"
-//            } else {
-//                favoritesButton.title = "Añadir a favoritos"
-//            }
+            if book.isFavoriteBook() {
+                favoritesButton.title = "Quitar de favoritos"
+            } else {
+                favoritesButton.title = "Añadir a favoritos"
+            }
         
         // If no model is set then main view is hidden
         } else {

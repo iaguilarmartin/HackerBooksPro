@@ -14,22 +14,24 @@ public class Document: NSManagedObject {
     static let entityName = "Document"
     
     private var downloadState: DownloadState = .notDownloaded
-    private var documentURL: URL?
-    
-    var delegate: DocumentDelegate?
     
     var data: Data {
         get {
-            if downloadState == .notDownloaded {
+            if downloadState == .notDownloaded,
+                let urlString = self.documentURL,
+                let url = URL(string: urlString) {
+                
                 downloadState = .downloading
                 
                 print("Downloading document: ", self.documentURL!);
                 
                 DispatchQueue.global(qos: .default).async {
-                    if let docData = try? Data(contentsOf: self.documentURL!) {
+                    if let docData = try? Data(contentsOf: url) {
                         self.documentData = docData as NSData?
-                        self.downloadState = .downloaded
-                        self.delegate?.documentDownloaded(self)
+                        DispatchQueue.main.async {
+                            self.downloadState = .downloaded
+                            self.book?.documentDownloaded()
+                        }
                     } else {
                         self.downloadState = .notDownloaded
                     }
@@ -41,7 +43,7 @@ public class Document: NSManagedObject {
     }
     
     //MARK: - Initializer
-    convenience init (documentURL: URL, inContext context: NSManagedObjectContext) {
+    convenience init (documentURL: String, inContext context: NSManagedObjectContext) {
         let entityDescription = NSEntityDescription.entity(forEntityName: Document.entityName, in: context)
         self.init(entity: entityDescription!, insertInto: context)
         
@@ -49,8 +51,4 @@ public class Document: NSManagedObject {
         let defaultDocument = Bundle.main.url(forResource: "emptyPdf", withExtension: "pdf")!
         self.documentData = try! Data(contentsOf: defaultDocument) as NSData?
     }
-}
-
-protocol DocumentDelegate {
-    func documentDownloaded(_ sender: Document)
 }

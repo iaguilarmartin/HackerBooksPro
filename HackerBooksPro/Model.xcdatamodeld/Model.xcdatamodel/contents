@@ -17,22 +17,25 @@
     </entity>
     <entity name="Cover" representedClassName=".Cover" syncable="YES">
         <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="imageURL" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="cover" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Document" representedClassName=".Document" syncable="YES">
         <attribute name="documentData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="documentURL" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="document" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="sortName" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="bookTags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="tag" inverseEntity="BookTag" syncable="YES"/>
     </entity>
     <elements>
         <element name="Author" positionX="-459" positionY="-279" width="128" height="75"/>
         <element name="Book" positionX="-209" positionY="-157" width="128" height="120"/>
         <element name="BookTag" positionX="-198" positionY="9" width="128" height="73"/>
-        <element name="Cover" positionX="-441" positionY="-108" width="128" height="75"/>
-        <element name="Tag" positionX="-450" positionY="96" width="128" height="73"/>
-        <element name="Document" positionX="-324" positionY="-126" width="128" height="75"/>
+        <element name="Cover" positionX="-441" positionY="-108" width="128" height="90"/>
+        <element name="Document" positionX="-324" positionY="-126" width="128" height="90"/>
+        <element name="Tag" positionX="-450" positionY="96" width="128" height="90"/>
     </elements>
 </model>

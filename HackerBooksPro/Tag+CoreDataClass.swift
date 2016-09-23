@@ -12,6 +12,13 @@ import CoreData
 
 public class Tag: NSManagedObject {
     static let entityName = "Tag"
+    static let favoritesTagName = "favorites"
+    
+    var isFavoriteTag: Bool {
+        get {
+            return name == Tag.favoritesTagName
+        }
+    }
     
     //MARK: - Initializer
     convenience init (name: String, inContext context: NSManagedObjectContext) {
@@ -20,6 +27,7 @@ public class Tag: NSManagedObject {
         self.init(entity: entityDescription!, insertInto: context)
         
         self.name = name
+        self.sortName = isFavoriteTag ? "_" + name : name
     }
     
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Tag {
@@ -34,5 +42,4 @@ public class Tag: NSManagedObject {
             return Tag(name: name, inContext: context)
         }
     }
-    
 }

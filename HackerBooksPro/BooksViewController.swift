@@ -19,9 +19,10 @@ class BooksViewController: CoreDataTableViewController {
     var delegate: BooksViewControllerDelegate?
     
     init(context: NSManagedObjectContext) {
+
         let tagsRequest = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
         tagsRequest.fetchBatchSize = 50
-        tagsRequest.sortDescriptors = [NSSortDescriptor(key: "tag.name", ascending: true), NSSortDescriptor(key: "book.title", ascending: true)]
+        tagsRequest.sortDescriptors = [NSSortDescriptor(key: "tag.sortName", ascending: true), NSSortDescriptor(key: "book.title", ascending: true)]
         self.tagsFetchedResultsController = NSFetchedResultsController(fetchRequest: tagsRequest, managedObjectContext: context, sectionNameKeyPath: "tag.name", cacheName: nil)
     
         let alphabeticalRequest = NSFetchRequest<Book>(entityName: Book.entityName)

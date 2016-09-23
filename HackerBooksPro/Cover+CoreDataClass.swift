@@ -14,22 +14,24 @@ public class Cover: NSManagedObject {
     static let entityName = "Cover"
     
     private var downloadState: DownloadState = .notDownloaded
-    private var imageURL: URL?
-    
-    var delegate: CoverDelegate?
     
     var image: UIImage? {
         get {
-            if downloadState == .notDownloaded {
+            if downloadState == .notDownloaded,
+                let urlString = self.imageURL,
+                let url = URL(string: urlString) {
+                
                 downloadState = .downloading
                 
-                print("Downloading cover: ", self.imageURL!);
+                print("Downloading cover: ", url);
                 
                 DispatchQueue.global(qos: .default).async {
-                    if let imageData = try? Data(contentsOf: self.imageURL!) {
+                    if let imageData = try? Data(contentsOf: url) {
                         self.imageData = imageData as NSData?
-                        self.downloadState = .downloaded
-                        self.delegate?.imageDownloaded(self)
+                        DispatchQueue.main.async {
+                            self.downloadState = .downloaded
+                            self.book?.imageDownloaded()
+                        }
                     } else {
                         self.downloadState = .notDownloaded
                     }
@@ -49,7 +51,7 @@ public class Cover: NSManagedObject {
     }
     
     //MARK: - Initializer
-    convenience init (imageURL: URL, inContext context: NSManagedObjectContext) {
+    convenience init (imageURL: String, inContext context: NSManagedObjectContext) {
         let entityDescription = NSEntityDescription.entity(forEntityName: Cover.entityName, in: context)
         self.init(entity: entityDescription!, insertInto: context)
         
@@ -57,8 +59,4 @@ public class Cover: NSManagedObject {
         let defaultImage = Bundle.main.url(forResource: "emptyBookCover", withExtension: "png")!
         self.imageData = try! Data(contentsOf: defaultImage) as NSData?
     }
-}
-
-protocol CoverDelegate {
-    func imageDownloaded(_ sender: Cover)
 }

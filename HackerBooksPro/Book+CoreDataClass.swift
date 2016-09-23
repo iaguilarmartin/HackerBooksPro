@@ -22,11 +22,7 @@ public class Book: NSManagedObject {
         self.init(entity: entityDescription!, insertInto: context)
         
         self.title = title
-        
-        cover.delegate = self
         self.cover = cover
-        
-        document.delegate = self
         self.document = document
         
         for authorName in authors {
@@ -36,9 +32,7 @@ public class Book: NSManagedObject {
         
         for tagName in tags {
             let tag = Tag.searchOrCreate(name: tagName, inContext: context)
-            let bookTag = BookTag(book: self, tag: tag, inContext: context)
-            tag.addToBookTags(bookTag)
-            addToBookTags(bookTag)
+            let _ = BookTag(book: self, tag: tag, inContext: context)
         }
     }
     
@@ -56,21 +50,46 @@ public class Book: NSManagedObject {
     
     func tagNames() -> String {
         let bookTagsArray: [BookTag] = bookTags!.allObjects as! [BookTag]
-        let names: [String] = bookTagsArray.map { return $0.tag!.name! }
+        var names: [String] = bookTagsArray.map { return $0.tag!.name! }
+        names = names.filter { $0 != Tag.favoritesTagName }
         return names.joined(separator: ", ")
     }
-}
 
-extension Book: CoverDelegate {
-    func imageDownloaded(_ sender: Cover) {
-        self.cover = sender
+    private func getFavoriteBookTag() -> BookTag? {
+        if let array = bookTags?.allObjects as? [BookTag] {
+            for bookTag in array {
+                if (bookTag.tag?.isFavoriteTag)! {
+                    return bookTag
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    func isFavoriteBook() -> Bool {
+        if let _ = getFavoriteBookTag() {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func toggleFavoriteState() {
+        if let favoriteBookTag = getFavoriteBookTag() {
+            removeFromBookTags(favoriteBookTag)
+            managedObjectContext?.delete(favoriteBookTag)
+        } else {
+            let favoritesTag = Tag.searchOrCreate(name: Tag.favoritesTagName, inContext: managedObjectContext!)
+            let _ = BookTag(book: self, tag: favoritesTag, inContext: managedObjectContext!)
+        }
+    }
+    
+    func imageDownloaded() {
         sendNotification(name: Book.bookCoverChangedEvent)
     }
-}
-
-extension Book: DocumentDelegate {
-    func documentDownloaded(_ sender: Document) {
-        self.document = sender
+    
+    func documentDownloaded() {
         sendNotification(name: Book.bookDocumentChangedEvent)
     }
 }

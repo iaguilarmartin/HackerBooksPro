@@ -2,7 +2,7 @@
 //  Document+CoreDataProperties.swift
 //  HackerBooksPro
 //
-//  Created by Ivan Aguilar Martin on 21/9/16.
+//  Created by Ivan Aguilar Martin on 22/9/16.
 //  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
 //
 
@@ -16,6 +16,7 @@ extension Document {
     }
 
     @NSManaged public var documentData: NSData?
+    @NSManaged public var documentURL: String?
     @NSManaged public var book: Book?
 
 }

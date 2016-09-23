@@ -12,6 +12,8 @@ import CoreData
 public class BookTag: NSManagedObject {
     static let entityName = "BookTag"
     
+    var sortValue = "prueba"
+    
     //MARK: - Initializer
     convenience init (book: Book, tag: Tag, inContext context: NSManagedObjectContext) {
         
