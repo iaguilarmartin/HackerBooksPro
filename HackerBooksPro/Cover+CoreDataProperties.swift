@@ -2,7 +2,7 @@
 //  Cover+CoreDataProperties.swift
 //  HackerBooksPro
 //
-//  Created by Ivan Aguilar Martin on 22/9/16.
+//  Created by Ivan Aguilar Martin on 23/9/16.
 //  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
 //
 

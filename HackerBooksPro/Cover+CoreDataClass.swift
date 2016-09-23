@@ -12,41 +12,30 @@ import UIKit
 
 public class Cover: NSManagedObject {
     static let entityName = "Cover"
-    
-    private var downloadState: DownloadState = .notDownloaded
-    
+
     var image: UIImage? {
         get {
-            if downloadState == .notDownloaded,
-                let urlString = self.imageURL,
-                let url = URL(string: urlString) {
+            if imageData == nil {
+                let defaultImage = Bundle.main.url(forResource: "emptyBookCover", withExtension: "png")!
+                self.imageData = try! Data(contentsOf: defaultImage) as NSData?
                 
-                downloadState = .downloading
-                
-                print("Downloading cover: ", url);
-                
-                DispatchQueue.global(qos: .default).async {
-                    if let imageData = try? Data(contentsOf: url) {
-                        self.imageData = imageData as NSData?
-                        DispatchQueue.main.async {
-                            self.downloadState = .downloaded
-                            self.book?.imageDownloaded()
+                if let urlString = self.imageURL,
+                    let url = URL(string: urlString) {
+                    
+                    print("Downloading cover: ", url);
+                    
+                    DispatchQueue.global(qos: .default).async {
+                        if let imageData = try? Data(contentsOf: url) {
+                            self.imageData = imageData as NSData?
+                            DispatchQueue.main.async {
+                                self.book?.imageDownloaded()
+                            }
                         }
-                    } else {
-                        self.downloadState = .notDownloaded
                     }
                 }
             }
             
-            return UIImage(data: imageData! as Data)
-        }
-        set {
-            guard let img = newValue else {
-                imageData = nil
-                return
-            }
-            
-            imageData = UIImageJPEGRepresentation(img, 0.9) as NSData?
+            return UIImage(data: self.imageData! as Data)
         }
     }
     
@@ -56,7 +45,5 @@ public class Cover: NSManagedObject {
         self.init(entity: entityDescription!, insertInto: context)
         
         self.imageURL = imageURL
-        let defaultImage = Bundle.main.url(forResource: "emptyBookCover", withExtension: "png")!
-        self.imageData = try! Data(contentsOf: defaultImage) as NSData?
     }
 }
