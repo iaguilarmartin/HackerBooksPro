@@ -29,7 +29,7 @@ public class Book: NSManagedObject {
             let author = Author.searchOrCreate(name: authorName, inContext: context)
             self.addToAuthors(author)
         }
-        
+    
         for tagName in tags {
             let tag = Tag.searchOrCreate(name: tagName, inContext: context)
             let _ = BookTag(book: self, tag: tag, inContext: context)

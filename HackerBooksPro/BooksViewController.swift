@@ -18,8 +18,14 @@ class BooksViewController: CoreDataTableViewController {
     var segmentedControl: UISegmentedControl
     var delegate: BooksViewControllerDelegate?
     
+    var context: NSManagedObjectContext?
+    
+    var searchResultsController: SearchResultsViewController?
+    var searchController: UISearchController?
+    
     init(context: NSManagedObjectContext) {
-
+        self.context = context
+        
         let tagsRequest = NSFetchRequest<BookTag>(entityName: BookTag.entityName)
         tagsRequest.fetchBatchSize = 50
         tagsRequest.sortDescriptors = [NSSortDescriptor(key: "tag.sortName", ascending: true), NSSortDescriptor(key: "book.title", ascending: true)]
@@ -56,6 +62,25 @@ extension BooksViewController {
         self.segmentedControl.addTarget(self, action: #selector(selectedSegmentChanged), for: .valueChanged)
         
         self.navigationItem.titleView = self.segmentedControl
+        
+        let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(showSearchBar))
+        self.navigationItem.rightBarButtonItem = searchButton
+        
+        searchResultsController = SearchResultsViewController(nibName: nil, bundle: nil)
+        searchResultsController?.tableView.delegate = self
+        
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController?.dimsBackgroundDuringPresentation = true
+        searchController?.searchResultsUpdater = self
+        searchController?.searchBar.sizeToFit()
+        searchController?.searchBar.delegate = self
+        definesPresentationContext = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.extendedLayoutIncludesOpaqueBars = true
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,8 +103,15 @@ extension BooksViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var book: Book
+        
         // Get selected book
-        let book = getBookAtIndexPath(indexPath)
+        if tableView == self.tableView {
+            book = getBookAtIndexPath(indexPath)
+        } else {
+            book = (searchResultsController?.filteredBooks[indexPath.row])!
+        }
         
         // If current device is an iPad then existing BookViewController is informed that a
         // new book is selected. Else, app navigates to the a new BookViewController
@@ -130,6 +162,42 @@ extension BooksViewController {
         } else {
             return self.fetchedResultsController?.object(at: path) as! Book
         }
+    }
+    
+    func showSearchBar() {
+        self.tableView.tableHeaderView = searchController?.searchBar
+        //Scroll the TableView to the first element
+        self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
+        
+        searchController?.searchBar.becomeFirstResponder()
+    }
+}
+
+extension BooksViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchingText = searchController.searchBar.text?.lowercased()
+        
+        let titlePredicate = NSPredicate(format: "title CONTAINS[cd] %@", searchingText!)
+        let tagPredicate = NSPredicate(format: "ANY bookTags.tag.name CONTAINS[cd] %@", searchingText!)
+        let authorsPredicate = NSPredicate(format: "ANY authors.name CONTAINS[cd] %@", searchingText!)
+        
+        let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [titlePredicate, tagPredicate, authorsPredicate])
+        
+        let fetchRequest = NSFetchRequest<Book>(entityName: "Book")
+        fetchRequest.predicate = compoundPredicate
+        
+        if let array = try? context?.fetch(fetchRequest), let books = array {
+            searchResultsController?.filteredBooks = books
+        } else {
+            searchResultsController?.filteredBooks = [Book]()
+        }
+        searchResultsController?.tableView.reloadData()
+    }
+}
+
+extension BooksViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.tableView.tableHeaderView = nil
     }
 }
 
