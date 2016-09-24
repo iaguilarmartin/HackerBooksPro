@@ -25,6 +25,9 @@ class PDFViewController: UIViewController {
         
         self.edgesForExtendedLayout = UIRectEdge()
         
+        let annoButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(showAnnotations))
+        self.navigationItem.rightBarButtonItem = annoButton
+        
         updateView()
     }
     
@@ -69,4 +72,8 @@ class PDFViewController: UIViewController {
         updateView()
     }
     
+    func showAnnotations() {
+        let annoVC = AnnotationsViewController(book: self.model)
+        navigationController?.pushViewController(annoVC, animated: true)
+    }
 }

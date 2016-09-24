@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16A323" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Annotation" representedClassName=".Annotation" syncable="YES">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="modificationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="annotations" inverseEntity="Book" syncable="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="annotation" inverseEntity="Location" syncable="YES"/>
+        <relationship name="photo" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="annotation" inverseEntity="Image" syncable="YES"/>
+    </entity>
     <entity name="Author" representedClassName=".Author" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="books" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="authors" inverseEntity="Book" syncable="YES"/>
     </entity>
     <entity name="Book" representedClassName=".Book" syncable="YES">
         <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Annotation" inverseName="book" inverseEntity="Annotation" syncable="YES"/>
         <relationship name="authors" toMany="YES" deletionRule="Nullify" destinationEntity="Author" inverseName="books" inverseEntity="Author" syncable="YES"/>
         <relationship name="bookTags" toMany="YES" deletionRule="Nullify" destinationEntity="BookTag" inverseName="book" inverseEntity="BookTag" syncable="YES"/>
         <relationship name="cover" maxCount="1" deletionRule="Cascade" destinationEntity="Cover" inverseName="book" inverseEntity="Cover" syncable="YES"/>
@@ -25,6 +34,16 @@
         <attribute name="documentURL" attributeType="String" syncable="YES"/>
         <relationship name="book" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="document" inverseEntity="Book" syncable="YES"/>
     </entity>
+    <entity name="Image" representedClassName=".Image" syncable="YES">
+        <attribute name="imageData" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="annotation" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="photo" inverseEntity="Annotation" syncable="YES"/>
+    </entity>
+    <entity name="Location" representedClassName=".Location" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="annotation" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="location" inverseEntity="Annotation" syncable="YES"/>
+    </entity>
     <entity name="Tag" representedClassName=".Tag" syncable="YES">
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="sortName" attributeType="String" indexed="YES" syncable="YES"/>
@@ -32,10 +51,13 @@
     </entity>
     <elements>
         <element name="Author" positionX="-459" positionY="-279" width="128" height="75"/>
-        <element name="Book" positionX="-209" positionY="-157" width="128" height="120"/>
+        <element name="Book" positionX="-209" positionY="-157" width="128" height="135"/>
         <element name="BookTag" positionX="-198" positionY="9" width="128" height="73"/>
         <element name="Cover" positionX="-441" positionY="-108" width="128" height="90"/>
         <element name="Document" positionX="-324" positionY="-126" width="128" height="90"/>
         <element name="Tag" positionX="-450" positionY="96" width="128" height="90"/>
+        <element name="Location" positionX="-324" positionY="-126" width="128" height="105"/>
+        <element name="Annotation" positionX="-315" positionY="-117" width="128" height="135"/>
+        <element name="Image" positionX="-306" positionY="-108" width="128" height="75"/>
     </elements>
 </model>

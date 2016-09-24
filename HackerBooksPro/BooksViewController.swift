@@ -183,7 +183,7 @@ extension BooksViewController: UISearchResultsUpdating {
         
         let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [titlePredicate, tagPredicate, authorsPredicate])
         
-        let fetchRequest = NSFetchRequest<Book>(entityName: "Book")
+        let fetchRequest = NSFetchRequest<Book>(entityName: Book.entityName)
         fetchRequest.predicate = compoundPredicate
         
         if let array = try? context?.fetch(fetchRequest), let books = array {

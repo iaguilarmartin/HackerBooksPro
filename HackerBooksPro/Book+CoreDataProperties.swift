@@ -2,7 +2,7 @@
 //  Book+CoreDataProperties.swift
 //  HackerBooksPro
 //
-//  Created by Ivan Aguilar Martin on 21/9/16.
+//  Created by Ivan Aguilar Martin on 24/9/16.
 //  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
 //
 
@@ -20,6 +20,7 @@ extension Book {
     @NSManaged public var bookTags: NSSet?
     @NSManaged public var cover: Cover?
     @NSManaged public var document: Document?
+    @NSManaged public var annotations: NSSet?
 
 }
 
@@ -54,5 +55,22 @@ extension Book {
 
     @objc(removeBookTags:)
     @NSManaged public func removeFromBookTags(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for annotations
+extension Book {
+
+    @objc(addAnnotationsObject:)
+    @NSManaged public func addToAnnotations(_ value: Annotation)
+
+    @objc(removeAnnotationsObject:)
+    @NSManaged public func removeFromAnnotations(_ value: Annotation)
+
+    @objc(addAnnotations:)
+    @NSManaged public func addToAnnotations(_ values: NSSet)
+
+    @objc(removeAnnotations:)
+    @NSManaged public func removeFromAnnotations(_ values: NSSet)
 
 }
