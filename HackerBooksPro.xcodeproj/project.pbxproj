@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87297F191D97E790006D8C8C /* AnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87297F171D97E790006D8C8C /* AnnotationViewController.swift */; };
+		87297F1A1D97E790006D8C8C /* AnnotationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87297F181D97E790006D8C8C /* AnnotationViewController.xib */; };
 		874856A91D90504100A0620F /* BookViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874856A71D90504100A0620F /* BookViewCell.swift */; };
 		874856AA1D90504100A0620F /* BookViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 874856A81D90504100A0620F /* BookViewCell.xib */; };
 		874856AD1D90675E00A0620F /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874856AB1D90675E00A0620F /* BookViewController.swift */; };
@@ -51,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		87297F171D97E790006D8C8C /* AnnotationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationViewController.swift; sourceTree = "<group>"; };
+		87297F181D97E790006D8C8C /* AnnotationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationViewController.xib; sourceTree = "<group>"; };
 		874856A71D90504100A0620F /* BookViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewCell.swift; sourceTree = "<group>"; };
 		874856A81D90504100A0620F /* BookViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookViewCell.xib; sourceTree = "<group>"; };
 		874856AB1D90675E00A0620F /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +212,8 @@
 				876739781D944DE400A2BA84 /* LoadingDataViewController.xib */,
 				876AA4A61D9590BE0071FA1A /* SearchResultsViewController.swift */,
 				8767C5C11D96E51D00BF5E67 /* AnnotationsViewController.swift */,
+				87297F171D97E790006D8C8C /* AnnotationViewController.swift */,
+				87297F181D97E790006D8C8C /* AnnotationViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -289,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87AD49931D8EB259001B370B /* LaunchScreen.storyboard in Resources */,
+				87297F1A1D97E790006D8C8C /* AnnotationViewController.xib in Resources */,
 				87F81B121D92CC9A00D70F13 /* PDFViewController.xib in Resources */,
 				87AD499E1D8EB2D0001B370B /* emptyPdf.pdf in Resources */,
 				87AD499D1D8EB2D0001B370B /* emptyBookCover.png in Resources */,
@@ -337,6 +344,7 @@
 				876739791D944DE400A2BA84 /* LoadingDataViewController.swift in Sources */,
 				87F81B211D92CE1800D70F13 /* Book+CoreDataClass.swift in Sources */,
 				87AD49A11D8EB31F001B370B /* ApplicationErrors.swift in Sources */,
+				87297F191D97E790006D8C8C /* AnnotationViewController.swift in Sources */,
 				87AD49A71D8EB5A5001B370B /* Model.xcdatamodeld in Sources */,
 				876AA4A71D9590BE0071FA1A /* SearchResultsViewController.swift in Sources */,
 			);

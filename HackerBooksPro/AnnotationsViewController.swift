@@ -54,7 +54,18 @@ class AnnotationsViewController: CoreDataTableViewController {
         return cell!
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let annotation = fetchedResultsController?.object(at: indexPath) as! Annotation
+        navigateToAnnotation(annotation: annotation)
+    }
+    
     func addAnnotation() {
-        let _ = Annotation(text: "Nueva anotación", book: self.book, context: self.book.managedObjectContext!)
+        let newAnno = Annotation(text: "Nueva anotación", book: self.book, context: self.book.managedObjectContext!)
+        navigateToAnnotation(annotation: newAnno)
+    }
+    
+    func navigateToAnnotation(annotation: Annotation) {
+        let annotationVC = AnnotationViewController(annotation: annotation)
+        self.navigationController?.pushViewController(annotationVC, animated: true)
     }
 }
