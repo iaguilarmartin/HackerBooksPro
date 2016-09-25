@@ -9,21 +9,21 @@
 import UIKit
 import CoreData
 
-class AnnotationsViewController: CoreDataTableViewController {
+class AnnotationsViewController: UITabBarController {
     
-    var book: Book
+    var model: Book
     
     init(book: Book) {
-        self.book = book
+        self.model = book
+        super.init(nibName: nil, bundle: nil)
         
-        let fetchRequest = NSFetchRequest<Annotation>(entityName: Annotation.entityName)
-        fetchRequest.fetchBatchSize = 50
-        fetchRequest.predicate = NSPredicate(format: "book = %@", book)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
+        let annoVC = CollectionViewController(book: self.model)
+        annoVC.title = "Collection"
         
-        let fetchedResultsController = NSFetchedResultsController<Annotation>(fetchRequest: fetchRequest, managedObjectContext: book.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
-        
-        super.init(fetchedResultsController: fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
+        let mapVC = MapViewController(nibName: nil, bundle: nil)
+        mapVC.title = "Map"
+
+        self.setViewControllers([annoVC, mapVC], animated: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,40 +32,15 @@ class AnnotationsViewController: CoreDataTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.title = "Annotations"
         
+        self.title = "Annotations"
         let newAnnoButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAnnotation))
         self.navigationItem.rightBarButtonItem = newAnnoButton
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cellID = "AnnotationCell"
-        let annotation = fetchedResultsController?.object(at: indexPath) as! Annotation
-        
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-        if cell == nil {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
-        }
-        
-        cell?.textLabel?.text = annotation.text
-        
-        return cell!
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let annotation = fetchedResultsController?.object(at: indexPath) as! Annotation
-        navigateToAnnotation(annotation: annotation)
-    }
-    
     func addAnnotation() {
-        let newAnno = Annotation(text: "Nueva anotación", book: self.book, context: self.book.managedObjectContext!)
-        navigateToAnnotation(annotation: newAnno)
-    }
-    
-    func navigateToAnnotation(annotation: Annotation) {
-        let annotationVC = AnnotationViewController(annotation: annotation)
+        let newAnno = Annotation(text: "Nueva anotación", book: self.model, context: self.model.managedObjectContext!)
+        let annotationVC = AnnotationViewController(annotation: newAnno)
         self.navigationController?.pushViewController(annotationVC, animated: true)
     }
 }

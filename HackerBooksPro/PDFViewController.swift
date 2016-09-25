@@ -73,7 +73,8 @@ class PDFViewController: UIViewController {
     }
     
     func showAnnotations() {
-        let annoVC = AnnotationsViewController(book: self.model)
-        navigationController?.pushViewController(annoVC, animated: true)
+        
+        let annotationsVC = AnnotationsViewController(book: self.model)
+        navigationController?.pushViewController(annotationsVC, animated: true)
     }
 }
