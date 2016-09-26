@@ -14,6 +14,7 @@ public class Book: NSManagedObject {
     static let bookCoverChangedEvent = "BookCoverChangedNotification"
     static let bookDocumentChangedEvent = "BookDocumentChangedNotification"
     static let bookChangedKey = "KeyBook"
+    static let lastReadedBookKey = "LastReaded"
     
     //MARK: - Initializer
     convenience init (title: String, authors: [String], tags: [String], cover: Cover, document: Document, inContext context: NSManagedObjectContext) {

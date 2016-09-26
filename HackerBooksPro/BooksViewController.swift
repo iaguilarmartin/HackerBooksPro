@@ -23,6 +23,8 @@ class BooksViewController: CoreDataTableViewController {
     var searchResultsController: SearchResultsViewController?
     var searchController: UISearchController?
     
+    var lastReadedBook: Book?
+    
     init(context: NSManagedObjectContext) {
         self.context = context
         
@@ -75,12 +77,20 @@ extension BooksViewController {
         searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         definesPresentationContext = true
+        
+        lastReadedBook = getLastReadedBook()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.extendedLayoutIncludesOpaqueBars = true
+        
+        if lastReadedBook != nil {
+            navigateTo(book: lastReadedBook!)
+            UserDefaults.standard.removeObject(forKey: Book.lastReadedBookKey)
+            lastReadedBook = nil
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,18 +123,7 @@ extension BooksViewController {
             book = (searchResultsController?.filteredBooks[indexPath.row])!
         }
         
-        // If current device is an iPad then existing BookViewController is informed that a
-        // new book is selected. Else, app navigates to the a new BookViewController
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            self.delegate?.booksViewController(self, didSelectBook: book)
-            
-            let notif = Notification(name: Notification.Name(rawValue: BooksViewController.selectedBookChanged), object: self, userInfo: [BooksViewController.selectedBookKey: book])
-            let notifCenter = NotificationCenter.default
-            notifCenter.post(notif)
-        } else {
-            let bookVC = BookViewController(model: book)
-            self.navigationController?.pushViewController(bookVC, animated: true)
-        }
+        navigateTo(book: book)
     }
 }
 
@@ -170,6 +169,46 @@ extension BooksViewController {
         self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
         
         searchController?.searchBar.becomeFirstResponder()
+    }
+    
+    func getLastReadedBook() -> Book? {
+        if let archivedURI = UserDefaults.standard.data(forKey: Book.lastReadedBookKey),
+            let uri = NSKeyedUnarchiver.unarchiveObject(with: archivedURI) as? URL,
+            let oid = context?.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: uri) {
+            
+            guard let ob = context?.object(with: oid) else {
+                return nil
+            }
+            
+            if ob.isFault {
+                return ob as? Book
+            } else {
+                let req = NSFetchRequest<Book>(entityName: Book.entityName)
+                req.fetchLimit = 1
+                req.predicate = NSPredicate(format: "SELF = %@", ob)
+                
+                if let books = try? context?.fetch(req), let book = books?.first {
+                    return book
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    func navigateTo(book: Book) {
+        // If current device is an iPad then existing BookViewController is informed that a
+        // new book is selected. Else, app navigates to the a new BookViewController
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.delegate?.booksViewController(self, didSelectBook: book)
+            
+            let notif = Notification(name: Notification.Name(rawValue: BooksViewController.selectedBookChanged), object: self, userInfo: [BooksViewController.selectedBookKey: book])
+            let notifCenter = NotificationCenter.default
+            notifCenter.post(notif)
+        } else {
+            let bookVC = BookViewController(model: book)
+            self.navigationController?.pushViewController(bookVC, animated: true)
+        }
     }
 }
 

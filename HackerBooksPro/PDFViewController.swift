@@ -55,6 +55,10 @@ class PDFViewController: UIViewController {
         self.title = self.model.title
         
         pdfWebView.load((model.document?.data)!, mimeType: "application/pdf", textEncodingName: "utf8", baseURL: URL(string:"http://www.google.com")!)
+        
+        // Saving in UserDefaults las readed book
+        let uri = self.model.objectID.uriRepresentation()
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: uri), forKey: Book.lastReadedBookKey)
     }
     
     // Function called when selectedBookChanged notification arrives
