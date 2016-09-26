@@ -14,6 +14,7 @@ public class Tag: NSManagedObject {
     static let entityName = "Tag"
     static let favoritesTagName = "favorites"
     
+    // Check if tag name is equal default favorites tag name
     var isFavoriteTag: Bool {
         get {
             return name == Tag.favoritesTagName
@@ -30,6 +31,7 @@ public class Tag: NSManagedObject {
         self.sortName = isFavoriteTag ? "_" + name : name
     }
     
+    // Find an existing Tag by name or creates a new one if it donsen't exist
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Tag {
         
         let request = NSFetchRequest<Tag>(entityName: Tag.entityName)

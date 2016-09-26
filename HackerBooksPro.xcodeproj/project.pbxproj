@@ -44,7 +44,6 @@
 		87AD49BE1D8EBAA1001B370B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AD49BD1D8EBAA1001B370B /* CoreDataStack.swift */; };
 		87AD49C11D8EC815001B370B /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AD49C01D8EC815001B370B /* CoreDataTableViewController.swift */; };
 		87AD49C31D8EC841001B370B /* BooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AD49C21D8EC841001B370B /* BooksViewController.swift */; };
-		87AD49D21D8F2CB3001B370B /* DownloadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AD49D11D8F2CB3001B370B /* DownloadState.swift */; };
 		87F1738C1D996596004C9BF0 /* thumbnails.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738B1D996596004C9BF0 /* thumbnails.png */; };
 		87F1738E1D9965B2004C9BF0 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738D1D9965B2004C9BF0 /* map.png */; };
 		87F173901D9979EA004C9BF0 /* bikehike_course.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738F1D9979EA004C9BF0 /* bikehike_course.gpx */; };
@@ -98,7 +97,6 @@
 		87AD49BD1D8EBAA1001B370B /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		87AD49C01D8EC815001B370B /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		87AD49C21D8EC841001B370B /* BooksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksViewController.swift; sourceTree = "<group>"; };
-		87AD49D11D8F2CB3001B370B /* DownloadState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadState.swift; sourceTree = "<group>"; };
 		87F1738B1D996596004C9BF0 /* thumbnails.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnails.png; sourceTree = "<group>"; };
 		87F1738D1D9965B2004C9BF0 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
 		87F1738F1D9979EA004C9BF0 /* bikehike_course.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = bikehike_course.gpx; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 			children = (
 				87AD49A21D8EB41D001B370B /* DataDownloader.swift */,
 				87AD49A01D8EB31F001B370B /* ApplicationErrors.swift */,
-				87AD49D11D8F2CB3001B370B /* DownloadState.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -338,7 +335,6 @@
 			files = (
 				8767C5BD1D96E28800BF5E67 /* Location+CoreDataClass.swift in Sources */,
 				87AD49C11D8EC815001B370B /* CoreDataTableViewController.swift in Sources */,
-				87AD49D21D8F2CB3001B370B /* DownloadState.swift in Sources */,
 				8767C5B71D96E28800BF5E67 /* Annotation+CoreDataProperties.swift in Sources */,
 				87297F201D981173006D8C8C /* CollectionViewController.swift in Sources */,
 				87AD49891D8EB259001B370B /* AppDelegate.swift in Sources */,

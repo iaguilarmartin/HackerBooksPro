@@ -21,6 +21,7 @@ public class Author: NSManagedObject {
         self.name = name
     }
     
+    // Find an existing Author by name or creates a new one if it donsen't exist
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Author {
         
         let request = NSFetchRequest<Author>(entityName: Author.entityName)

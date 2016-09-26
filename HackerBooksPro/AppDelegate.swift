@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // Creating books list ViewController
         var mainViewController: UIViewController
         let booksVC = BooksViewController(context: model.context)
         let booksNav = UINavigationController(rootViewController: booksVC)
@@ -47,11 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // if it is the first time that the app is running then
         // the JSON file needs to be downloaded
         if !UserDefaults.standard.bool(forKey: appInitializedKey) {
+            
+            // Show loading information ViewController while JSON is being processed
             let loadingVC = LoadingDataViewController(nextViewController: mainViewController)
             self.window?.rootViewController = loadingVC
             
+            // Listening for ContextDidSave notifications
             NotificationCenter.default.addObserver(self, selector: #selector(contextDidSave), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
             
+            // Processing JSON file in background
             model.performBackgroundBatchOperation(loadInitialData)
         } else {
             self.model.autoSave(autoSaveInterval)
@@ -65,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func loadInitialData(_ workerContext: NSManagedObjectContext) -> () {
         do {
-            // Get JSON file with books data from local or remote
+            // Get JSON file with books data from remote
             let jsonArray = try DataDownloader.sharedInstance.downloadApplicationData()
             
             // Proccess each JSON object inside the array
@@ -82,13 +87,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let authors = authorsString.components(separatedBy: ", ")
                     let tags = tagsString.components(separatedBy: ", ")
                     
-                    // Check if the image and document string value are valid URLs
+                    // Creating new book
                     let cover = Cover(imageURL: imageURL, inContext: workerContext)
                     let pdf = Document(documentURL: docURL, inContext: workerContext)
                     let _ = Book(title: title, authors: authors, tags: tags, cover: cover, document: pdf, inContext: workerContext)
                 }
             }
             
+            // Setting app as initialized in UserDefaults
             UserDefaults.standard.set(true, forKey: appInitializedKey)
         } catch ApplicationErrors.invalidJSONURL {
             print("ERROR: Invalid JSON URL")
@@ -102,10 +108,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func contextDidSave(notification: NSNotification) {
+        
+        // Unsubscribing from NSManagedObjectContextDidSave notification
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
         
         self.model.autoSave(autoSaveInterval)
         
+        // Displaying rootViewController
         let windowVC = self.window?.rootViewController as! LoadingDataViewController
         windowVC.presentRootViewController()
     }
