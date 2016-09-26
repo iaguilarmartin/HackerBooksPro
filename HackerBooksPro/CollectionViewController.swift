@@ -11,17 +11,8 @@ import CoreData
 
 class CollectionViewController: CoreDataTableViewController{
 
-    var book: Book
-    
-    init(book: Book) {
-        self.book = book
-        
-        let fetchRequest = NSFetchRequest<Annotation>(entityName: Annotation.entityName)
-        fetchRequest.fetchBatchSize = 50
-        fetchRequest.predicate = NSPredicate(format: "book = %@", book)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
-        
-        let fetchedResultsController = NSFetchedResultsController<Annotation>(fetchRequest: fetchRequest, managedObjectContext: book.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
+    init(context: NSManagedObjectContext, request: NSFetchRequest<Annotation>) {
+        let fetchedResultsController = NSFetchedResultsController<Annotation>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
         super.init(fetchedResultsController: fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>, style: .plain)
     }
@@ -45,6 +36,8 @@ class CollectionViewController: CoreDataTableViewController{
         }
         
         cell?.textLabel?.text = annotation.text
+        cell?.imageView?.image = annotation.photo?.image
+        cell?.detailTextLabel?.text = annotation.location?.address
         
         return cell!
     }

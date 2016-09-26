@@ -17,13 +17,21 @@ class AnnotationsViewController: UITabBarController {
         self.model = book
         super.init(nibName: nil, bundle: nil)
         
-        let annoVC = CollectionViewController(book: self.model)
+        let fetchRequest = NSFetchRequest<Annotation>(entityName: Annotation.entityName)
+        fetchRequest.fetchBatchSize = 50
+        fetchRequest.predicate = NSPredicate(format: "book = %@", book)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "modificationDate", ascending: false)]
+        
+        let annoVC = CollectionViewController(context: book.managedObjectContext!, request: fetchRequest)
         annoVC.title = "Collection"
         
-        let mapVC = MapViewController(nibName: nil, bundle: nil)
+        let mapVC = MapViewController(context: book.managedObjectContext!,request: fetchRequest)
         mapVC.title = "Map"
-
+        
         self.setViewControllers([annoVC, mapVC], animated: true)
+        
+        self.tabBar.items?[0].image = UIImage(imageLiteralResourceName: "thumbnails.png")
+        self.tabBar.items?[1].image = UIImage(imageLiteralResourceName: "map.png")
     }
     
     required init?(coder aDecoder: NSCoder) {

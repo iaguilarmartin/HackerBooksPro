@@ -21,7 +21,8 @@ public class Location: NSManagedObject {
         self.annotation = annotation
         self.longitude = location.coordinate.longitude
         self.latitude = location.coordinate.latitude
-        
+        print("Latitude: ", self.latitude)
+        print("Longitude: ", self.longitude)
         CLGeocoder().reverseGeocodeLocation(location) { (placemarks: [CLPlacemark]?, error: Error?) in
             
             if error != nil {
@@ -34,7 +35,7 @@ public class Location: NSManagedObject {
                 self.address = "Unknown"
             }
             
-            print("Location address is: %@", self.address)
+            print("Location address is: ", self.address)
         }
     }
 }

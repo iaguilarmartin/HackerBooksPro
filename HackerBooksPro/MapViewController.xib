@@ -8,6 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController" customModule="HackerBooksPro" customModuleProvider="target">
             <connections>
+                <outlet property="mapView" destination="1Py-kL-jRi" id="T94-wr-VqN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

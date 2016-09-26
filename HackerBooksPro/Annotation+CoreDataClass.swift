@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import UIKit
 import CoreLocation
+import MapKit
 
 public class Annotation: NSManagedObject {
     static let entityName = "Annotation"
@@ -61,6 +62,30 @@ extension Annotation: CLLocationManagerDelegate {
             }
         } else {
             self.stopRequestingLocations()
+        }
+    }
+}
+
+extension Annotation: MKAnnotation {
+    public var coordinate: CLLocationCoordinate2D {
+        get {
+            guard let location = self.location else {
+                return kCLLocationCoordinate2DInvalid
+            }
+            
+            return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        }
+    }
+    
+    public var title: String? {
+        get {
+            return self.text
+        }
+    }
+    
+    public var subtitle: String? {
+        get {
+            return self.location?.address
         }
     }
 }
