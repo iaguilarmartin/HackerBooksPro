@@ -1,11 +1,3 @@
-//
-//  Cover+CoreDataClass.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 18/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 import CoreData
 import UIKit
@@ -13,9 +5,15 @@ import UIKit
 public class Cover: NSManagedObject {
     static let entityName = "Cover"
 
+    // Converting imade data to an UIImage
     var image: UIImage? {
         get {
+            
+            // Checking if Cover already has an image data value
             if imageData == nil {
+                
+                // if not image data is initialized with a default value
+                // while definitive image is downloaded from remote server
                 let defaultImage = Bundle.main.url(forResource: "emptyBookCover", withExtension: "png")!
                 self.imageData = try! Data(contentsOf: defaultImage) as NSData?
                 

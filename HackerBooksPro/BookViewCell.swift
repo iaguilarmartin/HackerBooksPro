@@ -1,12 +1,14 @@
 import UIKit
 
-// Custom Cell View to display books information in LibraryViewController
+// Custom Cell View to display books information in BooksViewController
 
 class BookViewCell: UITableViewCell {
 
+    //MARK: - Constants
     static let cellId: String = "CustomBookCell"
     static let cellHeight: CGFloat = 65
     
+    //MARK: - IBOutlets
     @IBOutlet weak var bookName: UILabel!
     @IBOutlet weak var bookAuthors: UILabel!
     @IBOutlet weak var bookImage: UIImageView!
@@ -20,6 +22,7 @@ class BookViewCell: UITableViewCell {
         }
     }
     
+    // Filling cell outlets with model information
     func fillCell() {
         if let book = book {
             bookName.text = book.title
@@ -52,4 +55,8 @@ class BookViewCell: UITableViewCell {
     deinit {
         stopObserving()
     }
+}
+
+extension BookViewCell {
+    
 }

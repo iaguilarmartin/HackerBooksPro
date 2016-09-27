@@ -1,7 +1,7 @@
 import UIKit
 
 // View Controller to display detailed book information
-class BookViewController: UIViewController, BooksViewControllerDelegate, UISplitViewControllerDelegate {
+class BookViewController: UIViewController {
 
     //MARK: - Properties
     var model: Book?
@@ -23,18 +23,7 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Lifecycle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        updateView()
-        
-        if self.splitViewController?.displayMode == .primaryHidden {
-            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem
-        }
-    }
+    
     
     //MARK: - IBActions
     @IBAction func readBook(_ sender: AnyObject) {
@@ -51,8 +40,26 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
             updateView()
         }
     }
+}
+
+//MARK: - Lifecycle
+extension BookViewController {
     
-    //MARK: - Functions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        
+        updateView()
+        
+        if self.splitViewController?.displayMode == .primaryHidden {
+            self.navigationItem.rightBarButtonItem = self.splitViewController?.displayModeButtonItem
+        }
+    }
+}
+
+//MARK: - Functions
+extension BookViewController {
     
     // Function that updates the view based on model state
     func updateView() {
@@ -67,25 +74,31 @@ class BookViewController: UIViewController, BooksViewControllerDelegate, UISplit
             self.bookImage.image  = model?.cover?.image
             
             if book.isFavoriteBook() {
-                favoritesButton.title = "Quitar de favoritos"
+                favoritesButton.title = "Remove from favorites"
             } else {
-                favoritesButton.title = "Añadir a favoritos"
+                favoritesButton.title = "Add to favorites"
             }
-        
+            
         // If no model is set then main view is hidden
         } else {
-            self.title = "Ningún libro seleccionado"
+            self.title = "No book selected"
             self.view.isHidden = true
         }
     }
+}
+
+//MARK: - BooksViewControllerDelegate
+extension BookViewController: BooksViewControllerDelegate {
     
-    //MARK: - BooksViewControllerDelegate
     func booksViewController(_ booksVC: BooksViewController, didSelectBook book: Book) {
         self.model = book
         updateView()
     }
+}
+
+//MARK: - UISplitViewControllerDelegate
+extension BookViewController: UISplitViewControllerDelegate {
     
-    //MARK: - UISplitViewControllerDelegate
     func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
         
         // If the screen is in portrait mode the library is displayed at the rigth

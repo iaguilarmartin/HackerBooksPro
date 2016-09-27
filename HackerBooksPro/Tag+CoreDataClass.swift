@@ -1,14 +1,5 @@
-//
-//  Tag+CoreDataClass.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 18/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 import CoreData
-
 
 public class Tag: NSManagedObject {
     static let entityName = "Tag"
@@ -30,8 +21,11 @@ public class Tag: NSManagedObject {
         self.name = name
         self.sortName = isFavoriteTag ? "_" + name : name
     }
+}
+
+extension Tag {
     
-    // Find an existing Tag by name or creates a new one if it donsen't exist
+    // Find an existing Tag by name or create a new one if it donsen't exist
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Tag {
         
         let request = NSFetchRequest<Tag>(entityName: Tag.entityName)

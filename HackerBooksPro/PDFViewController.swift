@@ -18,13 +18,18 @@ class PDFViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+//MARK: - Lifecycle
+extension PDFViewController {
     
-    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // To display navigation bar without transparency
         self.edgesForExtendedLayout = UIRectEdge()
         
+        // Adding show annotations button
         let annoButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(showAnnotations))
         self.navigationItem.rightBarButtonItem = annoButton
         
@@ -46,9 +51,10 @@ class PDFViewController: UIViewController {
         // Unsubscribe to all notifications
         NotificationCenter.default.removeObserver(self)
     }
-    
-    
-    //MARK: - Functions
+}
+
+//MARK: - Functions
+extension PDFViewController {
     
     // function to update controller title and WebView content
     func updateView() {
@@ -56,7 +62,7 @@ class PDFViewController: UIViewController {
         
         pdfWebView.load((model.document?.data)!, mimeType: "application/pdf", textEncodingName: "utf8", baseURL: URL(string:"http://www.google.com")!)
         
-        // Saving in UserDefaults las readed book
+        // Saving in UserDefaults last readed book
         let uri = self.model.objectID.uriRepresentation()
         UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: uri), forKey: Book.lastReadedBookKey)
     }
@@ -76,9 +82,10 @@ class PDFViewController: UIViewController {
         updateView()
     }
     
+    // Function for navigating to AnnotationsViewController
     func showAnnotations() {
-        
         let annotationsVC = AnnotationsViewController(book: self.model)
         navigationController?.pushViewController(annotationsVC, animated: true)
     }
+
 }

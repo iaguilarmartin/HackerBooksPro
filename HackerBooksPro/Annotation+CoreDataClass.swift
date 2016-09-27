@@ -1,11 +1,3 @@
-//
-//  Annotation+CoreDataClass.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 24/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 import CoreData
 import UIKit
@@ -17,7 +9,9 @@ public class Annotation: NSManagedObject {
     
     var locationManager: CLLocationManager?
     
+    //MARK: - Initializer
     convenience init(text: String, book: Book, context: NSManagedObjectContext) {
+        
         let entityDescription = NSEntityDescription.entity(forEntityName: Annotation.entityName, in: context)
         self.init(entity: entityDescription!, insertInto: context)
         
@@ -27,11 +21,19 @@ public class Annotation: NSManagedObject {
         self.text = text
         self.photo = Image(context: context)
     }
+}
+
+// MARK: - CLLocationManager
+extension Annotation {
     
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         
+        // Check if current context has no parent
+        // in order to execute this code just once
         if self.managedObjectContext?.parent != nil {
+            
+            // Requesting current user location
             let locationStatus = CLLocationManager.authorizationStatus()
             if (locationStatus == .authorizedAlways || locationStatus == .authorizedWhenInUse || locationStatus == .notDetermined) && CLLocationManager.locationServicesEnabled() {
                 
@@ -45,6 +47,7 @@ public class Annotation: NSManagedObject {
         }
     }
     
+    // Function to stop receiving locations
     func stopRequestingLocations() {
         self.locationManager?.stopUpdatingLocation()
         self.locationManager?.delegate = nil
@@ -52,9 +55,12 @@ public class Annotation: NSManagedObject {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension Annotation: CLLocationManagerDelegate {
+    
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
+        // Storing current user location into the model
         if self.location == nil {
             if let lastLocation = locations.last {
                 self.location = Location(location: lastLocation, annotation: self, context: self.managedObjectContext!)
@@ -66,7 +72,9 @@ extension Annotation: CLLocationManagerDelegate {
     }
 }
 
+// MARK: - MKAnnotation
 extension Annotation: MKAnnotation {
+    
     public var coordinate: CLLocationCoordinate2D {
         get {
             guard let location = self.location else {

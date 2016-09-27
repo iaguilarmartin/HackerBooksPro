@@ -1,21 +1,18 @@
-//
-//  MapViewController.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 25/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import UIKit
 import CoreData
 import MapKit
 
+// View Controller to display Annotation data
 class MapViewController: UIViewController {
     
+    //MARK: - IBOutlets
     @IBOutlet weak var mapView: MKMapView!
+    
+    //MARK: - Properties
     var request: NSFetchRequest<Annotation>
     var context: NSManagedObjectContext
     
+    //MARK: - Initializers
     init(context: NSManagedObjectContext, request: NSFetchRequest<Annotation>) {
         self.request = request
         self.context = context
@@ -25,18 +22,23 @@ class MapViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+}
+
+//MARK: - Lifecycle
+extension MapViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Clearing annotations from MapView
         self.mapView.removeAnnotations(self.mapView.annotations)
+        
+        // Property to store extent created with all annotations coordinates
         var zoomRect: MKMapRect = MKMapRectNull
         
         if let annotations = try? self.context.fetch(request) {
+            
+            // Filtering annotations with a valid location
             let filteredAnnos = annotations.filter({
                 if $0.location != nil {
                     let annotationPoint = MKMapPointForCoordinate($0.coordinate)
@@ -51,6 +53,7 @@ class MapViewController: UIViewController {
             self.mapView.addAnnotations(filteredAnnos)
         }
         
+        // Setting MapVIew initial region
         self.mapView.setRegion(MKCoordinateRegionForMapRect(zoomRect), animated: false)
     }
 }

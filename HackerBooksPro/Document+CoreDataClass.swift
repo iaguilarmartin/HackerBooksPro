@@ -1,21 +1,17 @@
-//
-//  Document+CoreDataClass.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 21/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 import CoreData
-
 
 public class Document: NSManagedObject {
     static let entityName = "Document"
     
     var data: Data {
         get {
+            
+            // Checking if Document already has an document data value
             if documentData == nil {
+                
+                // if not document data is initialized with a default value
+                // while definitive document is downloaded from remote server
                 let defaultDocument = Bundle.main.url(forResource: "emptyPdf", withExtension: "pdf")!
                 self.documentData = try! Data(contentsOf: defaultDocument) as NSData?
                 

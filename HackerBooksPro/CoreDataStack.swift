@@ -1,10 +1,3 @@
-//
-//  CoreDataStack.swift
-//
-//
-//  Created by Fernando Rodríguez Romero on 21/02/16.
-//
-
 import CoreData
 
 struct CoreDataStack {

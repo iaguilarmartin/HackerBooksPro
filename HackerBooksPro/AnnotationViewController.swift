@@ -1,22 +1,16 @@
-//
-//  AnnotationViewController.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 25/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import UIKit
 
+// View Controller to display Annotation data
 class AnnotationViewController: UIViewController {
 
-    
+    //MARK: - IBOutlets
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var annotationText: UITextView!
     @IBOutlet weak var annotationPhoto: UIImageView!
     
     var model: Annotation?
     
+    //MARK: - Initializers
     init(annotation: Annotation) {
         super.init(nibName: nil, bundle: nil)
         self.model = annotation
@@ -26,27 +20,7 @@ class AnnotationViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let df = DateFormatter()
-        df.dateStyle = .long
-        df.timeStyle = .short
-        
-        self.dateLabel.text = df.string(from: self.model?.creationDate as! Date)
-        self.annotationText.text = self.model?.text
-        self.annotationPhoto.image = self.model?.photo?.image
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.model?.text != self.annotationText.text {
-            self.model?.text = self.annotationText.text
-            self.model?.modificationDate = NSDate()
-        }
-    }
-
+    //MARK: - @IBActions
     @IBAction func shareAnnotation(_ sender: AnyObject) {
         let activityVC = UIActivityViewController(activityItems: getShareItems(), applicationActivities: nil)
         
@@ -59,6 +33,10 @@ class AnnotationViewController: UIViewController {
     }
 
     @IBAction func takePhoto(_ sender: AnyObject) {
+        
+        // If device camera and photolibrary are available then
+        // an ActionSheet is displayed so the user can choose the source
+        // of the image
         if UIImagePickerController.isSourceTypeAvailable(.camera) && UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             
             let actionSheet = UIAlertController(title: "Select photo source", message: nil, preferredStyle: .actionSheet)
@@ -79,7 +57,37 @@ class AnnotationViewController: UIViewController {
             self.launchPicker(sourceType: .photoLibrary)
         }
     }
+}
+
+//MARK: - Lifecycle
+extension AnnotationViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let df = DateFormatter()
+        df.dateStyle = .long
+        df.timeStyle = .short
+        
+        self.dateLabel.text = df.string(from: self.model?.creationDate as! Date)
+        self.annotationText.text = self.model?.text
+        self.annotationPhoto.image = self.model?.photo?.image
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.model?.text != self.annotationText.text {
+            self.model?.text = self.annotationText.text
+            self.model?.modificationDate = NSDate()
+        }
+    }
+}
+
+//MARK: - Functions
+extension AnnotationViewController {
+    
+    // Function to get each item of the annotation that can be shared
     func getShareItems() -> [Any] {
         var items = [Any]()
         
@@ -89,6 +97,7 @@ class AnnotationViewController: UIViewController {
         return items
     }
     
+    // Function to display either camera or photo library
     func launchPicker(sourceType: UIImagePickerControllerSourceType) {
         let picker = UIImagePickerController()
         picker.sourceType = sourceType
@@ -96,6 +105,7 @@ class AnnotationViewController: UIViewController {
         self.present(picker, animated: true, completion: nil)
     }
     
+    // Function to reduce image size in orther to consume less system memory
     func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
         
         let scale = newWidth / image.size.width
@@ -110,18 +120,23 @@ class AnnotationViewController: UIViewController {
     }
 }
 
+//MARK: - UIImagePickerControllerDelegate
 extension AnnotationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
+    
+        // If user does not select any photo then image is replaced
+        // in CoreData for the default image
         self.model?.photo?.restoreDefaultImage()
         self.model?.modificationDate = NSDate()
         self.annotationPhoto.image = self.model?.photo?.image
+        
         self.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        // If user selects a photo then model is updated with the new image
         if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
             DispatchQueue.global(qos: .userInitiated).async {
                 let screenBounds = UIScreen.main.bounds

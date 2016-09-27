@@ -1,11 +1,3 @@
-//
-//  Author+CoreDataClass.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 18/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import Foundation
 import CoreData
 
@@ -20,6 +12,9 @@ public class Author: NSManagedObject {
         
         self.name = name
     }
+}
+
+extension Author {
     
     // Find an existing Author by name or creates a new one if it donsen't exist
     static func searchOrCreate(name: String, inContext context: NSManagedObjectContext) -> Author {

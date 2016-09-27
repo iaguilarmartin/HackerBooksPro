@@ -1,17 +1,11 @@
-//
-//  LoadingDataViewController.swift
-//  HackerBooksPro
-//
-//  Created by Ivan Aguilar Martin on 22/9/16.
-//  Copyright © 2016 Ivan Aguilar Martin. All rights reserved.
-//
-
 import UIKit
 
+// View Controller to display a loading screen while JSON data is being processed
 class LoadingDataViewController: UIViewController {
     
     var rootViewController: UIViewController?
     
+    //MARK: - Initializers
     init(nextViewController: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         rootViewController = nextViewController
@@ -21,6 +15,7 @@ class LoadingDataViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Functions
     func presentRootViewController() {
         self.present(rootViewController!, animated: true, completion: nil)
     }

@@ -46,7 +46,6 @@
 		87AD49C31D8EC841001B370B /* BooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AD49C21D8EC841001B370B /* BooksViewController.swift */; };
 		87F1738C1D996596004C9BF0 /* thumbnails.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738B1D996596004C9BF0 /* thumbnails.png */; };
 		87F1738E1D9965B2004C9BF0 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738D1D9965B2004C9BF0 /* map.png */; };
-		87F173901D9979EA004C9BF0 /* bikehike_course.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 87F1738F1D9979EA004C9BF0 /* bikehike_course.gpx */; };
 		87F81B111D92CC9A00D70F13 /* PDFViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F81B0F1D92CC9A00D70F13 /* PDFViewController.swift */; };
 		87F81B121D92CC9A00D70F13 /* PDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87F81B101D92CC9A00D70F13 /* PDFViewController.xib */; };
 		87F81B1F1D92CE1800D70F13 /* Author+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F81B131D92CE1800D70F13 /* Author+CoreDataClass.swift */; };
@@ -99,7 +98,6 @@
 		87AD49C21D8EC841001B370B /* BooksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksViewController.swift; sourceTree = "<group>"; };
 		87F1738B1D996596004C9BF0 /* thumbnails.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnails.png; sourceTree = "<group>"; };
 		87F1738D1D9965B2004C9BF0 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
-		87F1738F1D9979EA004C9BF0 /* bikehike_course.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = bikehike_course.gpx; sourceTree = "<group>"; };
 		87F81B0F1D92CC9A00D70F13 /* PDFViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFViewController.swift; sourceTree = "<group>"; };
 		87F81B101D92CC9A00D70F13 /* PDFViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PDFViewController.xib; sourceTree = "<group>"; };
 		87F81B131D92CE1800D70F13 /* Author+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Author+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 		87AD497C1D8EB259001B370B = {
 			isa = PBXGroup;
 			children = (
-				87F1738F1D9979EA004C9BF0 /* bikehike_course.gpx */,
 				87AD49871D8EB259001B370B /* HackerBooksPro */,
 				87AD49861D8EB259001B370B /* Products */,
 			);
@@ -214,9 +211,9 @@
 		87AD49BF1D8EC7D0001B370B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				87AD49C01D8EC815001B370B /* CoreDataTableViewController.swift */,
 				87F81B0F1D92CC9A00D70F13 /* PDFViewController.swift */,
 				87F81B101D92CC9A00D70F13 /* PDFViewController.xib */,
-				87AD49C01D8EC815001B370B /* CoreDataTableViewController.swift */,
 				87AD49C21D8EC841001B370B /* BooksViewController.swift */,
 				874856AB1D90675E00A0620F /* BookViewController.swift */,
 				874856AC1D90675E00A0620F /* BookViewController.xib */,
@@ -319,7 +316,6 @@
 				8767397A1D944DE400A2BA84 /* LoadingDataViewController.xib in Resources */,
 				87AD49901D8EB259001B370B /* Assets.xcassets in Resources */,
 				874856AE1D90675E00A0620F /* BookViewController.xib in Resources */,
-				87F173901D9979EA004C9BF0 /* bikehike_course.gpx in Resources */,
 				87F1738E1D9965B2004C9BF0 /* map.png in Resources */,
 				87297F1E1D980E81006D8C8C /* MapViewController.xib in Resources */,
 				8767C5A81D96D85B00BF5E67 /* noImage.png in Resources */,
