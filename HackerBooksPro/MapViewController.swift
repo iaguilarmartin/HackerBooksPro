@@ -54,6 +54,7 @@ extension MapViewController {
         }
         
         // Setting MapVIew initial region
-        self.mapView.setRegion(MKCoordinateRegionForMapRect(zoomRect), animated: false)
-    }
+        if self.mapView.annotations.count > 0 {
+            self.mapView.setRegion(MKCoordinateRegionForMapRect(zoomRect), animated: false)
+        }    }
 }
